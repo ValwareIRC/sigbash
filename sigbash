@@ -1,0 +1,41 @@
+#!/bin/bash
+
+LENGTH=400
+#
+echo "Sleeping for 5 seconds so you can go to the sigmally page lol"
+sleep 5
+
+# change these to match your screen. this clicks on the "continue" button after you died
+CONTINUEBUTTONX=900
+CONTINUEBUTTONY=640
+
+# change these to match your screen. this clicks on the "Play" button on the main screen.
+PLAYBUTTONX=900
+PLAYBUTTONY=450
+
+ANGLE=700
+while true
+do
+	# The random places to move the cursor
+	for ANGLE in 700 900 1200 1300 1500 1700 1400 2300 2000 1600 1400 1000 2000 800 1300 1100 1400
+	do
+		DELAY=$(( $RANDOM % 8 ));
+		xdotool mousemove $CONTINUEBUTTONX $CONTINUEBUTTONY
+		xdotool click 1
+		xdotool mousemove $PLAYBUTTONX $PLAYBUTTONY
+		xdotool click 1
+		if [ $DELAY -eq 1 ] ; then
+			xdotool key 'e'
+		elif [ $DELAY -eq 2 ] ; then
+			echo ""
+			xdotool keydown 'q'
+		fi
+		xdotool mousemove_relative --polar $ANGLE $LENGTH
+		sleep $DELAY
+		if [ $DELAY -eq 2 ] ; then
+			xdotool keyup 'q'
+			# sleep a couple of seconds to gather up the stuff we just shot
+			sleep 2
+		fi
+	done
+done
